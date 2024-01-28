@@ -1,0 +1,175 @@
+---
+title: "20211101063_Furkan-Sen"
+author: "Furkan Sen"
+format: html
+editor: visual
+---
+
+## Ön Aşama
+
+Öncelikle "İlçe Bazında Hanelerin Hafta sonu Aktiviteleri" adlı veri setimizdeki Türkçe ifadeleri İngilizceye, boşlukları ise "\_" ile doldurduk.
+
+Datamızı import ettikten sonra işlemlerimize başladık.
+
+```{r}
+
+library(tidyverse)
+library(naniar)
+
+```
+
+```{r}
+library(readxl)
+data <- read_excel("C:/Users/Dell User/Desktop/5-vdym-ilce-baznda-hanelerin-haftasonu-aktivite-tercihleri.xlsx")
+View(data)
+```
+
+## NA deger kontrol aşaması
+
+```{r}
+sum(is.na(data))  #Burada hiç missing value var mı diye kontrol ettim
+```
+
+```{r}
+bozulmamıs_data <- data #veriye herhangi bir şey olursa diye asıl veriyi yedekledim
+View(bozulmamıs_data)
+```
+
+### Döngüyle rastgele gözlem silerek NA değer yaratma
+
+```{r}
+silinecek_hucre_sayisi <- 15
+#burada oluşturduğum for döngüsüyle random 15 tane veriyi silerek NA haline çevirdim
+for (i in 1:silinecek_hucre_sayisi) {
+  secilen_satir <- sample(1:nrow(data), 1)
+  secilen_sutun <- sample(colnames(data)[-1], 1) #bu satırda colnames in yanına [-1] koyarak ilk sütundan(İlce) silme işlemi yapmasını engelledim. 
+  data[secilen_satir, secilen_sutun] <- NA
+  print(paste("Silinen Hücre:", secilen_satir, secilen_sutun))
+}
+```
+
+```{r}
+#aşağıdaki formülle kontrol ettiğimizde 3 değerin NA olduğunu görüyoruz
+#sum(is.na(data)) 'dan da bulabilirdik
+n_miss(data)
+```
+
+```{r}
+#eksik (NA) değerlerin oranını görmüş olduk
+prop_miss(data)
+```
+
+```{r}
+#doldurmaları yaparken bu özetler lazım olacak
+summary(data)
+```
+
+```{r}
+#özet olarak baktığımızda çıktı da gözüktüğü üzere bu 3 sütunda NA değer var 
+miss_var_summary(data)
+```
+
+```{r}
+#missing datalara kuşbakışı ve sıralı bakalım
+vis_miss(data, sort_miss = TRUE)
+```
+
+```{r}
+#naniar kütüphanesiyle hangi sütunlarda NA olduğunu daha net görmüş olduk
+gg_miss_var(data)
+
+```
+
+### Boş Gözlemleri **K-Nearest Neighbors ile** Doldurma
+
+Bu veri setinde en mantıklı doldurma yöntemi kNN oldugu denenerek görülmüştür. "k" değerini seçerken overfitting ve underfitting göz önüne alınarak deneme/yanılma yoluyla seçilmiştir.
+
+```{r}
+View(data)
+```
+
+```{r}
+library(VIM)
+library(FNN)
+```
+
+```{r}
+dataw <- kNN(data, k = 2)
+```
+
+```{r}
+#bu satırda knn doldurma yontemıyle doldurma islemi yaptıgımda _imp sütunları ekliyordu onları sildim. suan knn le missing dataları doldurdugumuz veriyi inceliyoruz
+data <- dataw[, 1:20]
+```
+
+```{r}
+View(data)
+
+```
+
+## Görselleştirme Aşaması
+
+```{r}
+library(ggplot2)
+```
+
+### Bar chartla ilçelerin bu ankete katılım sayısını bulduk
+
+```{r}
+ggplot(data, aes(x = İlce)) +
+  geom_bar(aes(y = Calısıyorum, fill = "Calisiyorum"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Egitim_kursları, fill = "Egitim_kurslari"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Piknik, fill = "Piknik_mangal"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Evde_dinlenme, fill = "Evde_dinlenme"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Akraba_ziyareti, fill = "Akraba_ziyareti"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Es_dost_ev_ziyareti, fill = "Es_dost_ev_ziyareti"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Es_dost_ev_dısı_buluşmalar, fill = "Es_dost_ev_dısı_buluşmalar"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Konser_sinema_vb_etkinlikler, fill = "Konser_sinema_vb_etkinlikler"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Atolye_kurs_vb._hobi_egitimleri, fill = "Atolye_kurs_vb._hobi_egitimleri"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Kitap_okumak, fill = "Kitap_okumak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Dizi_Film_izlemek, fill = "Dizi/Film_izlemek"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Ev_alısverisi_yapmak, fill = "Ev_alısverisi_yapmak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Alısveris_merkezi_carsı_vb._gezmek, fill = "Alısveris_merkezi_carsı_vb._gezmek"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Hobilere_vakit_ayırmak, fill = "Hobilere_vakit_ayırmak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Spor_yapmak, fill = "Spor_yapmak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek, fill = "Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Gezme_amaclı_sehir_dısına_cıkmak, fill = "Gezme_amaclı_sehir_dısına_cıkmak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Kamp_yapmak, fill = "Kamp_yapmak"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Diger, fill = "Diger"), stat = "identity", position = "dodge") +
+  labs(title = "İlçelere Göre Etkinlik Katılım Sayıları",
+       x = "İlçeler",
+       y = "Katılım Sayısı") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 4)) + 
+  scale_x_discrete(expand = c(0.3, 0.3)) +  
+  theme(legend.position = "top") 
+
+```
+
+### Spor yapanlarla kitap okuyanlar arasındaki ilişkiyi scatter plot ile gördük
+
+```{r}
+scatter_plot <- ggplot(data, aes(x = Spor_yapmak, y = Kitap_okumak)) +
+  geom_point(color = "blue", size = 3, alpha = 0.7) +
+  labs(title = "Spor Yapma ve Kitap Okuma İlişkisi",
+       x = "Spor Yapmak",
+       y = "Kitap Okumak") +
+  theme_minimal()
+
+print(scatter_plot)
+```
+
+### En çok evde dinlenen ilçeyi öğrenelim.
+
+```{r}
+evde_dinlenme_grafik <- ggplot(data, aes(x = reorder(İlce, Evde_dinlenme), y = Evde_dinlenme)) +
+  geom_bar(stat = "identity", fill = "lightblue", color = "black", alpha = 0.7) +
+  labs(title = "İlçelere Göre Evde Dinlenme Aktivitesi Katılım Sayıları",
+       x = "İlçeler",
+       y = "Katılım Sayısı") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 55, hjust = 1, size = 8),
+        legend.position = "none")  
+
+print(evde_dinlenme_grafik)
+```
