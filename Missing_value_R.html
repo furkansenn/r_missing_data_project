@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Furkan Sen">
+
+<title>20211101063_Furkan-Sen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Missing_value_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Missing_value_R_files/libs/quarto-html/quarto.js"></script>
+<script src="Missing_value_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="Missing_value_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Missing_value_R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Missing_value_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Missing_value_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Missing_value_R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Missing_value_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Missing_value_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">20211101063_Furkan-Sen</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Furkan Sen </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="ön-aşama" class="level2">
+<h2 class="anchored" data-anchor-id="ön-aşama">Ön Aşama</h2>
+<p>Öncelikle “İlçe Bazında Hanelerin Hafta sonu Aktiviteleri” adlı veri setimizdeki Türkçe ifadeleri İngilizceye, boşlukları ise “_” ile doldurduk.</p>
+<p>Datamızı import ettikten sonra işlemlerimize başladık.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/Users/Dell User/Desktop/5-vdym-ilce-baznda-hanelerin-haftasonu-aktivite-tercihleri.xlsx"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="na-deger-kontrol-aşaması" class="level2">
+<h2 class="anchored" data-anchor-id="na-deger-kontrol-aşaması">NA deger kontrol aşaması</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(data))  <span class="co">#Burada hiç missing value var mı diye kontrol ettim</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bozulmamıs_data <span class="ot">&lt;-</span> data <span class="co">#veriye herhangi bir şey olursa diye asıl veriyi yedekledim</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(bozulmamıs_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="döngüyle-rastgele-gözlem-silerek-na-değer-yaratma" class="level3">
+<h3 class="anchored" data-anchor-id="döngüyle-rastgele-gözlem-silerek-na-değer-yaratma">Döngüyle rastgele gözlem silerek NA değer yaratma</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>silinecek_hucre_sayisi <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#burada oluşturduğum for döngüsüyle random 15 tane veriyi silerek NA haline çevirdim</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>silinecek_hucre_sayisi) {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  secilen_satir <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data), <span class="dv">1</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  secilen_sutun <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">colnames</span>(data)[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">1</span>) <span class="co">#bu satırda colnames in yanına [-1] koyarak ilk sütundan(İlce) silme işlemi yapmasını engelledim. </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  data[secilen_satir, secilen_sutun] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Silinen Hücre:"</span>, secilen_satir, secilen_sutun))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Silinen Hücre: 22 Hobilere_vakit_ayırmak"
+[1] "Silinen Hücre: 12 Egitim_kursları"
+[1] "Silinen Hücre: 19 Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek"
+[1] "Silinen Hücre: 36 Diger"
+[1] "Silinen Hücre: 28 Akraba_ziyareti"
+[1] "Silinen Hücre: 28 Atolye_kurs_vb._hobi_egitimleri"
+[1] "Silinen Hücre: 23 Kamp_yapmak"
+[1] "Silinen Hücre: 13 Spor_yapmak"
+[1] "Silinen Hücre: 25 Konser_sinema_vb_etkinlikler"
+[1] "Silinen Hücre: 34 Alısveris_merkezi_carsı_vb._gezmek"
+[1] "Silinen Hücre: 32 Es_dost_ev_ziyareti"
+[1] "Silinen Hücre: 1 Calısıyorum"
+[1] "Silinen Hücre: 13 Es_dost_ev_ziyareti"
+[1] "Silinen Hücre: 12 Gezme_amaclı_sehir_dısına_cıkmak"
+[1] "Silinen Hücre: 2 Spor_yapmak"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#aşağıdaki formülle kontrol ettiğimizde 3 değerin NA olduğunu görüyoruz</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#sum(is.na(data)) 'dan da bulabilirdik</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">n_miss</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#eksik (NA) değerlerin oranını görmüş olduk</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop_miss</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01923077</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#doldurmaları yaparken bu özetler lazım olacak</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     İlce            Calısıyorum     Egitim_kursları     Piknik     
+ Length:39          Min.   : 12.00   Min.   : 1.00   Min.   :  1.0  
+ Class :character   1st Qu.: 35.25   1st Qu.: 4.00   1st Qu.:  6.0  
+ Mode  :character   Median : 45.50   Median : 7.00   Median : 14.0  
+                    Mean   : 67.55   Mean   :12.26   Mean   : 21.1  
+                    3rd Qu.: 82.50   3rd Qu.:15.75   3rd Qu.: 25.0  
+                    Max.   :260.00   Max.   :62.00   Max.   :104.0  
+                    NA's   :1        NA's   :1                      
+ Evde_dinlenme   Akraba_ziyareti  Es_dost_ev_ziyareti
+ Min.   : 41.0   Min.   :  3.00   Min.   :  5.00     
+ 1st Qu.:163.5   1st Qu.: 21.75   1st Qu.: 21.00     
+ Median :216.0   Median : 28.50   Median : 37.00     
+ Mean   :235.1   Mean   : 42.26   Mean   : 42.59     
+ 3rd Qu.:302.0   3rd Qu.: 43.75   3rd Qu.: 47.00     
+ Max.   :499.0   Max.   :232.00   Max.   :213.00     
+                 NA's   :1        NA's   :2          
+ Es_dost_ev_dısı_buluşmalar Konser_sinema_vb_etkinlikler
+ Min.   :  2.00             Min.   : 0.00               
+ 1st Qu.: 15.50             1st Qu.: 4.25               
+ Median : 24.00             Median :12.00               
+ Mean   : 33.92             Mean   :15.50               
+ 3rd Qu.: 46.00             3rd Qu.:21.50               
+ Max.   :182.00             Max.   :59.00               
+                            NA's   :1                   
+ Atolye_kurs_vb._hobi_egitimleri  Kitap_okumak   Dizi_Film_izlemek
+ Min.   : 0.000                  Min.   : 0.00   Min.   : 3.00    
+ 1st Qu.: 1.000                  1st Qu.: 7.00   1st Qu.:13.50    
+ Median : 3.000                  Median :14.00   Median :20.00    
+ Mean   : 5.605                  Mean   :16.21   Mean   :26.87    
+ 3rd Qu.: 6.500                  3rd Qu.:19.00   3rd Qu.:40.00    
+ Max.   :43.000                  Max.   :69.00   Max.   :83.00    
+ NA's   :1                                                        
+ Ev_alısverisi_yapmak Alısveris_merkezi_carsı_vb._gezmek Hobilere_vakit_ayırmak
+ Min.   :  2.00       Min.   : 1.00                      Min.   : 0.00         
+ 1st Qu.: 11.50       1st Qu.:14.25                      1st Qu.: 5.00         
+ Median : 25.00       Median :22.50                      Median : 7.00         
+ Mean   : 31.97       Mean   :24.05                      Mean   :11.58         
+ 3rd Qu.: 39.50       3rd Qu.:32.75                      3rd Qu.:17.75         
+ Max.   :128.00       Max.   :68.00                      Max.   :40.00         
+                      NA's   :1                          NA's   :1             
+  Spor_yapmak     Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek
+ Min.   : 1.000   Min.   : 1.00                                      
+ 1st Qu.: 3.000   1st Qu.: 8.00                                      
+ Median : 7.000   Median :14.00                                      
+ Mean   : 8.243   Mean   :15.08                                      
+ 3rd Qu.:12.000   3rd Qu.:21.00                                      
+ Max.   :21.000   Max.   :41.00                                      
+ NA's   :2        NA's   :1                                          
+ Gezme_amaclı_sehir_dısına_cıkmak  Kamp_yapmak        Diger       
+ Min.   : 0.000                   Min.   :0.000   Min.   : 0.000  
+ 1st Qu.: 1.000                   1st Qu.:0.000   1st Qu.: 1.250  
+ Median : 3.000                   Median :1.000   Median : 3.500  
+ Mean   : 4.711                   Mean   :1.053   Mean   : 4.684  
+ 3rd Qu.: 6.000                   3rd Qu.:2.000   3rd Qu.: 6.000  
+ Max.   :25.000                   Max.   :4.000   Max.   :32.000  
+ NA's   :1                        NA's   :1       NA's   :1       </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#özet olarak baktığımızda çıktı da gözüktüğü üzere bu 3 sütunda NA değer var </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">miss_var_summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 3
+   variable                                            n_miss pct_miss
+   &lt;chr&gt;                                                &lt;int&gt;    &lt;dbl&gt;
+ 1 Es_dost_ev_ziyareti                                      2     5.13
+ 2 Spor_yapmak                                              2     5.13
+ 3 Calısıyorum                                              1     2.56
+ 4 Egitim_kursları                                          1     2.56
+ 5 Akraba_ziyareti                                          1     2.56
+ 6 Konser_sinema_vb_etkinlikler                             1     2.56
+ 7 Atolye_kurs_vb._hobi_egitimleri                          1     2.56
+ 8 Alısveris_merkezi_carsı_vb._gezmek                       1     2.56
+ 9 Hobilere_vakit_ayırmak                                   1     2.56
+10 Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek      1     2.56
+11 Gezme_amaclı_sehir_dısına_cıkmak                         1     2.56
+12 Kamp_yapmak                                              1     2.56
+13 Diger                                                    1     2.56
+14 İlce                                                     0     0   
+15 Piknik                                                   0     0   
+16 Evde_dinlenme                                            0     0   
+17 Es_dost_ev_dısı_buluşmalar                               0     0   
+18 Kitap_okumak                                             0     0   
+19 Dizi_Film_izlemek                                        0     0   
+20 Ev_alısverisi_yapmak                                     0     0   </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#missing datalara kuşbakışı ve sıralı bakalım</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(data, <span class="at">sort_miss =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Missing_value_R_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#naniar kütüphanesiyle hangi sütunlarda NA olduğunu daha net görmüş olduk</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_var</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Missing_value_R_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="boş-gözlemleri-k-nearest-neighbors-ile-doldurma" class="level3">
+<h3 class="anchored" data-anchor-id="boş-gözlemleri-k-nearest-neighbors-ile-doldurma">Boş Gözlemleri <strong>K-Nearest Neighbors ile</strong> Doldurma</h3>
+<p>Bu veri setinde en mantıklı doldurma yöntemi kNN oldugu denenerek görülmüştür. “k” değerini seçerken overfitting ve underfitting göz önüne alınarak deneme/yanılma yoluyla seçilmiştir.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: colorspace</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>VIM is ready to use.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'VIM'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:datasets':
+
+    sleep</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FNN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dataw <span class="ot">&lt;-</span> <span class="fu">kNN</span>(data, <span class="at">k =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bu satırda knn doldurma yontemıyle doldurma islemi yaptıgımda _imp sütunları ekliyordu onları sildim. suan knn le missing dataları doldurdugumuz veriyi inceliyoruz</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> dataw[, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="görselleştirme-aşaması" class="level2">
+<h2 class="anchored" data-anchor-id="görselleştirme-aşaması">Görselleştirme Aşaması</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="bar-chartla-ilçelerin-bu-ankete-katılım-sayısını-bulduk" class="level3">
+<h3 class="anchored" data-anchor-id="bar-chartla-ilçelerin-bu-ankete-katılım-sayısını-bulduk">Bar chartla ilçelerin bu ankete katılım sayısını bulduk</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> İlce)) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Calısıyorum, <span class="at">fill =</span> <span class="st">"Calisiyorum"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Egitim_kursları, <span class="at">fill =</span> <span class="st">"Egitim_kurslari"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Piknik, <span class="at">fill =</span> <span class="st">"Piknik_mangal"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Evde_dinlenme, <span class="at">fill =</span> <span class="st">"Evde_dinlenme"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Akraba_ziyareti, <span class="at">fill =</span> <span class="st">"Akraba_ziyareti"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Es_dost_ev_ziyareti, <span class="at">fill =</span> <span class="st">"Es_dost_ev_ziyareti"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Es_dost_ev_dısı_buluşmalar, <span class="at">fill =</span> <span class="st">"Es_dost_ev_dısı_buluşmalar"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Konser_sinema_vb_etkinlikler, <span class="at">fill =</span> <span class="st">"Konser_sinema_vb_etkinlikler"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Atolye_kurs_vb._hobi_egitimleri, <span class="at">fill =</span> <span class="st">"Atolye_kurs_vb._hobi_egitimleri"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Kitap_okumak, <span class="at">fill =</span> <span class="st">"Kitap_okumak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Dizi_Film_izlemek, <span class="at">fill =</span> <span class="st">"Dizi/Film_izlemek"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Ev_alısverisi_yapmak, <span class="at">fill =</span> <span class="st">"Ev_alısverisi_yapmak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Alısveris_merkezi_carsı_vb._gezmek, <span class="at">fill =</span> <span class="st">"Alısveris_merkezi_carsı_vb._gezmek"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Hobilere_vakit_ayırmak, <span class="at">fill =</span> <span class="st">"Hobilere_vakit_ayırmak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Spor_yapmak, <span class="at">fill =</span> <span class="st">"Spor_yapmak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek, <span class="at">fill =</span> <span class="st">"Sehir_icinde_sahil_orman_parklar_vb_yerlerde_gezmek"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Gezme_amaclı_sehir_dısına_cıkmak, <span class="at">fill =</span> <span class="st">"Gezme_amaclı_sehir_dısına_cıkmak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Kamp_yapmak, <span class="at">fill =</span> <span class="st">"Kamp_yapmak"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> Diger, <span class="at">fill =</span> <span class="st">"Diger"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"İlçelere Göre Etkinlik Katılım Sayıları"</span>,</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"İlçeler"</span>,</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Katılım Sayısı"</span>) <span class="sc">+</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>)) <span class="sc">+</span>  </span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Missing_value_R_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="spor-yapanlarla-kitap-okuyanlar-arasındaki-ilişkiyi-scatter-plot-ile-gördük" class="level3">
+<h3 class="anchored" data-anchor-id="spor-yapanlarla-kitap-okuyanlar-arasındaki-ilişkiyi-scatter-plot-ile-gördük">Spor yapanlarla kitap okuyanlar arasındaki ilişkiyi scatter plot ile gördük</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>scatter_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Spor_yapmak, <span class="at">y =</span> Kitap_okumak)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Spor Yapma ve Kitap Okuma İlişkisi"</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Spor Yapmak"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Kitap Okumak"</span>) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(scatter_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Missing_value_R_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="en-çok-evde-dinlenen-ilçeyi-öğrenelim." class="level3">
+<h3 class="anchored" data-anchor-id="en-çok-evde-dinlenen-ilçeyi-öğrenelim.">En çok evde dinlenen ilçeyi öğrenelim.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>evde_dinlenme_grafik <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(İlce, Evde_dinlenme), <span class="at">y =</span> Evde_dinlenme)) <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"İlçelere Göre Evde Dinlenme Aktivitesi Katılım Sayıları"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"İlçeler"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Katılım Sayısı"</span>) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">55</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)  </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(evde_dinlenme_grafik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Missing_value_R_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
